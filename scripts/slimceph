@@ -8,7 +8,7 @@ sudo ./docker-slim --debug build \
 --include-path /etc/confd \
 --include-path /var/log/ceph \
 --include-path /tmp \
-ceph/daemon &> /dev/null &
+ceph/daemon
 
 sleep 5
 echo $(docker ps)
