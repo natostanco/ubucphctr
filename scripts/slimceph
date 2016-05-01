@@ -15,4 +15,7 @@ sleep 5
 
 docker exec -it $(docker ps | grep dockerslim | awk '{print $1}') /scripts/testceph
 
-sleep 55
+while [[ $( docker images | grep "ceph/daemon.slim" | wc -l ) -ne 1 ]]
+do 
+sleep 5
+done
