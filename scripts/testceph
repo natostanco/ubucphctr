@@ -1,5 +1,5 @@
 #!/bin/bash
-export MON_IP=172.17.0.2 CEPH_PUBLIC_NETWORK=172.17.0.0/24
+export MON_IP=172.17.0.1 CEPH_PUBLIC_NETWORK=172.17.0.0/24
 /entrypoint.sh mon &> /dev/null &
 sleep 5
 mkdir -p /var/lib/ceph/osd
