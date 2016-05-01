@@ -2,7 +2,7 @@ services:
 - docker
 script:
 - export SAVE=$PWD cnt="ubucphctr" slim=".slim"
-- "~/scripts/slimceph"
+- "./scripts/slimceph"
 - docker tag ceph/daemon.slim ${cnt}${slim}
 before_deploy:
 - cd
