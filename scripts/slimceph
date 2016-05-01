@@ -1,5 +1,6 @@
 #!/bin/bash
 docker pull ceph/daemon
+mkdir -p ${SAVE}/etc ${SAVE}/var
 sudo ./docker-slim --debug build \
 --continue-after 60 \
 --http-probe \
