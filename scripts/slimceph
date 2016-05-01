@@ -2,9 +2,9 @@
 sudo ./docker-slim --debug build \
 --continue-after 60 \
 --http-probe \
---mount ~/etc:/etc/ceph \
---mount ~/var:/var/lib/ceph \
---mount ~/scripts:/scripts \
+--mount ./etc:/etc/ceph \
+--mount ./var:/var/lib/ceph \
+--mount ./scripts:/scripts \
 --include-path /etc/confd \
 --include-path /var/log/ceph \
 --include-path /tmp \
