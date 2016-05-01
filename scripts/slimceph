@@ -1,4 +1,5 @@
 #!/bin/bash
+docker pull ceph/daemon
 sudo ./docker-slim --debug build \
 --continue-after 60 \
 --http-probe \
@@ -8,7 +9,7 @@ sudo ./docker-slim --debug build \
 --include-path /etc/confd \
 --include-path /var/log/ceph \
 --include-path /tmp \
-ceph/daemon
+ceph/daemon &> /dev/null &
 
 sleep 5
 echo $(docker ps)
