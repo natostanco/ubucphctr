@@ -12,7 +12,7 @@ sudo ./docker-slim --debug build \
 ceph/daemon &> /dev/null &
 
 sleep 5
-echo $(docker ps)
+
 docker exec -it $(docker ps | grep dockerslim | awk '{print $1}') /scripts/testceph
 
 sleep 55
