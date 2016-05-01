@@ -1,0 +1,43 @@
+#!/bin/bash
+export MON_IP=172.17.0.2 CEPH_PUBLIC_NETWORK=172.17.0.0/24
+/entrypoint.sh mon &> /dev/null &
+sleep 5
+mkdir -p /var/lib/ceph/osd
+export OSD_FORCE_ZAP=1 OSD_DIRECTORY=/var/lib/ceph/osd
+/entrypoint.sh osd_directory &> /dev/null &
+sleep 5
+export CEPHFS_CREATE=1
+/entrypoint.sh mds &> /dev/null &
+sleep 5
+ceph osd pool set rbd size 1
+ceph osd pool set rbd min_size 1
+ceph osd pool set cephfs_data size 1
+ceph osd pool set cephfs_data min_size 1
+ceph osd pool set cephfs_metadata size 1
+ceph osd pool set cephfs_metadata min_size 1
+sleep 5
+/entrypoint.sh rgw &> /dev/null &
+sleep 5
+/entrypoint.sh restapi &> /dev/null &
+sleep 5
+
+include=( "/usr/bin/ceph*" \
+          "/usr/bin/rbd*" \
+          "/usr/bin/rados*" \
+          "/usr/local/bin/*" \
+          "/bin/bash" \
+          "/bin/cat" \
+          "/bin/grep" \
+          "/bin/ls" \
+          "/sbin/my_init" \
+          "/usr/bin/uuidgen" \
+          "/usr/bin/awk" \
+          "/usr/bin/crushtool" \
+          "/bin/mount" \
+          "/sbin/mkfs" \
+          )
+
+for n in ${!include[*]}
+do
+find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
+done

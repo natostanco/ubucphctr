@@ -1,0 +1,25 @@
+services:
+- docker
+script:
+- export SAVE=$PWD cnt="ubucphctr" slim=".slim"
+- "~/scripts/slimceph"
+- docker tag ceph/daemon.slim ${cnt}${slim}
+before_deploy:
+- cd
+- wget `curl -s https://api.github.com/repos/appc/docker2aci/releases | grep browser_download_url
+  | head -n 1 | cut -d '"' -f 4` -O d2a.tar.gz
+- tar -zxf d2a.tar.gz && rm d2a.tar.gz && d2a=`ls | grep "docker2aci*"` && d2a=`basename  $d2a`
+  && alias d2a='${PWD}/${d2a}/docker2aci'
+- docker save -o ${cnt}${slim}.tar ${cnt}${slim}
+- "${PWD}/${d2a}/docker2aci ${cnt}${slim}.tar"
+- xz -9 -c ${cnt}${slim}.tar > ${cnt}${slim}.tar.xz
+deploy:
+  provider: releases
+  api_key:
+    secure: kQf2HeVQyCTgEwVv9pOV3RSTReoIlkf/1Xl2TRquXwC8ZQDNw+BKfsNM6y7e/ApkFoFVK7fjE/Ct8r7IJ9IEre+lg7n5NkW3aSwimzlgZLdk+ePihaKs2SIpDIf29LogcRznP96CDbhR7jR7P3A0KnUc2VDw6EhlDRcfzkksI/bEttOkG3Qi2SkeINxTbIv02/Ty00qYzv93ekC4mn7L9mx0PkErvSc6uFAubcvepfpxX5/ReLr2f8L2/jy0SV0l0JhyE+B7IW8576FAN8v5u1DAnfkKQiaA2alEh3u7+JAuF1z9u2uNgJO1WClNTILL8WjE/vBOayJb6DIHcILpSAlXMVZEaJYGdrZBTCuI9d34qUrGR59iBXXGnyXV7Hh9l+UmpUqFdwczckX2Ct6j8qXraIsYc1ykYrKC/2uq2LDYnMiCGk2IzcKhteI9iWjq+vm4IvfrmHZ/zgozM4UWiN6vCCw8vFJP2KRKjqlMdPxUy/7gmqHUOyU7Rts+PCQ9sZ61shVvpValGUCquKF5k7f8ESPBV8q4BUH1T7lv7iX80W5sfea1dGbYDG+8hgYQpWg8wRsJ9T22pIP91ioEvs3prg1ja00hu0uQp1kBjwSmX7idANw0DFTMba3bo28Zp3V6hOyUSJhNgwQDM0T7Uq1vmNLj2E008SG21dAehuM=
+  file:
+  - ${cnt}${slim}.tar.xz 
+  - ${cnt}${slim}-latest.aci 
+  skip_cleanup: true
+  on:
+    tags: true
