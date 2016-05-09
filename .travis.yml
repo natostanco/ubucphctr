@@ -1,5 +1,8 @@
 services:
 - docker
+env:
+- secure: "BPiSDp+Gv1x5hnkc0EkisyMqqQf91Tdxaz9vAJ2A7gonfTltF7K1BLxWYo/5xehzrE/A3N4K+GnYSSqfoytG2VwUGANBWjNbjKWEpcr2h8jcq9V9eBtG0lMpukEHEVC6ijXEsyjDeH2DKh5hZTVyUovKuCdPSIejNHuZe7tUhQqopn58EKWagXGoNUlzyY9qGUZBx2GmPqaJhTA0995mC13NTrk7q0oRyUFAb+xcE2PpifpdgAXsxWqfeUg0jz7kOec7pK7bdXMAAkSAoEUH1UVtC+XgerirW8JXSAwSNoxuTpwE9fsZq9Mlm5WO+ZUSaxsIvV1XTHB3TKeUCP3nU7KXMXmAZVc9EA0O+pI7X68zIVGmagketz2/f/l18ELQmMxp/IHPpJ6jxWDvUAsNRWKlPTjdYsgp4k4rd4Z2fN/BJHgm5ea/goD5cO9Xs4DolVKhrIa0MkIkcZnZhR3/2v3ecLX2myN3yGAFof9PPcEyI8KVVBOB8lUInjSvOoOnryACZWf71WyHx1wtSohzQt2DsX2LB/dVTYc2oyiHGaju5ee5WU69Clk4UFz1wZ7uyxnxN3I9dT6Iz97LhghMyXmZazE7fT+cx0Pcvv2oFobi3k23FyA4RBeC04Pyy5GKP86YpP2hrrZ/9+lpX6kdcJuXw57nntroCGvrmCEEoW0="
+- secure: "bk4G/hTxzgyrkg++QMUXPI6raPQMKvp6VMpm0BCOpG61aCS3uDV9zJNe0fAKOa/35NlG8DtWJIYPyO9XpVcnIa947UZrP/hQrveQKGaLrcrfmXA//FyAgda3Lw2IBhfqU8T2agSHuDSlDrKtfJQxWry3xf8ppoLC02oCrgLxNgUUGc4d/YKlac/z7IFKtrzDTxl6Ucqhysbs8GecUBZxPewMZ8jgLJRZZ7qFKPBNuv0nG7RsuC93X+1q6Mm76MITFkoFfJPtctGdF+O0N7r0OVUSwBBIbXXaVS0Bh9aqz/KlbGJahIEOKWsjdbRASJ00WhX2UZMsEc6jnz1v3cPdQqNZjpNz9SLVbaeM7cDUO12m4QxHLAzcyvSmKbakaG982TepXg6lYqYaxZoGlIIRaWfZYRkoyf9gZX/nJY3uL7AHfel7pyFd2uOBvkSZ8hIga6FPIBOoPAeTSpXwU8qIPEYcjBBri6P/iONE7GUX4b8rav/ItlIzJKp17aJgftrijJwm3e3eJ4Eqkp8H5tejNLz1FY7b7asSDyZY1SQkajxQV1JYHnjhfQg9EA7a0MQO6+2kJT4T1ag3U5BAP070rbuQ6S0UwFN0LJG9Wsqt37R+lKVZwR5w6kv/0G7n8SwVzQ8SssRDTnaJcbU/+oLYdUGnu2LzzkQbu2ryUrFuPxo="
 script:
 - export SAVE=$PWD cnt="ubucphctr" slim=".slim"
 - "./scripts/slimceph"
@@ -13,6 +16,9 @@ before_deploy:
 - docker save -o ${cnt}${slim}.tar ${cnt}${slim}
 - "${PWD}/${d2a}/docker2aci ${cnt}${slim}.tar"
 - xz -9 -c ${cnt}${slim}.tar > ${cnt}${slim}.tar.xz
+- docker login -u $quaylogin -p $quaypsw quay.io
+- docker tag ${cnt}${slim} quay.io/natostanco/$cnt
+- docker push quay.io/natostanco/$cnt
 deploy:
   provider: releases
   api_key:
