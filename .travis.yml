@@ -17,7 +17,7 @@ before_deploy:
 - docker save -o ${cnt}${slim}.tar ${cnt}${slim}
 - "${PWD}/${d2a}/docker2aci ${cnt}${slim}.tar"
 - xz -9 -c ${cnt}${slim}.tar > ${cnt}${slim}.tar.xz
-- docker login -u $quaylogin -p $quaypsw quay.io
+- docker login -u $QUAYL -p $QUAYP quay.io
 - docker tag ${cnt}${slim} quay.io/natostanco/$cnt
 - docker push quay.io/natostanco/$cnt
 deploy:
