@@ -9,6 +9,7 @@ sudo ./docker-slim --debug build \
 --mount ${SAVE}/scripts:/scripts \
 --include-path /etc/confd \
 --include-path /var/log/ceph \
+--include-path /usr/lib/ceph \
 --include-path /tmp \
 ceph/daemon &> /dev/null &
 
