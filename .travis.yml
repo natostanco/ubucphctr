@@ -7,16 +7,17 @@ env:
     - secure: "Go2hrCioeYJaAGiLAFVrvEzXnllhYNlrH3UFcQX+DwueHXHIks4BJoMm15ZnFDvVxaUNqZA4zEAY29HBhLcqNkG9UFPiLsMOqFSYLANfJFU6fwL5poNPjg+n/mfPgvPo9s7clCglOq2d/rxFF5Nzq92UwQTh8e3AQtop2qTeKEjx1bGHPEILqjG17/OtcKYrVLV5/I+rSRywKlDhygwIRa8Wf/QzfLW1no/Uf6y8yLzHUFpNRvAu3MsoBDZvUBasTWU62ic29xZ7mdipadeMhNUAVrWvX4w3S74UezaD31BSWF+yjvYu9aUuRfXLhQFso5DBQDkA+2eGmeeWBzrET6uhGIpg7OI/aPl7e1B+GeEvk651683HVkcWNfa00rMV7EtzG8HhHMIeZ/v9iYsWkPKGz2k11BXLyhL4YLebeJhLIJjJXCgP0jvkejzEQfUiIYHeehx7cn/MUVhNvmSFL1p/Lm9hJKd+x8Bxz0pnatjZi84y2zfF3RDZ/SzgIaiR5KIOU50dnV8LPzAXYcU2Gol1965Jzk70OItTlOlqZJ+xTCx2zdS2Pl4PrcdY+vQaNzhvJ6Z5e1u+2qwOLQrShyCGW7vYujytbmM30OJ6nl2vfaSS3gMtsn+Mep1zLOHcwgWnl4DA7VuwsZekhFZhnJODTIOF2Jn6KOGJH8ikP2A="
 before_script:
 - export SAVE=$PWD cnt="ubucphctr" slim=".slim" HostIP="172.17.0.1"
-- 'docker run -d -p 4001:4001 -p 2380:2380 -p 2379:2379 \\
- --name etcd quay.io/coreos/etcd \\
- -name etcd0 \\
- -advertise-client-urls http://${HostIP}:4001 \\
- -listen-client-urls http://0.0.0.0:4001 \\
- -initial-advertise-peer-urls http://${HostIP}:2380 \\
- -listen-peer-urls http://0.0.0.0:2380 \\
- -initial-cluster-token etcd-cluster-1 \\
- -initial-cluster etcd0=http://${HostIP}:2380 \\
- -initial-cluster-state new'
+- >
+  docker run -d -p 4001:4001 -p 2380:2380 -p 2379:2379 
+  --name etcd quay.io/coreos/etcd 
+  -name etcd0 
+  -advertise-client-urls http://${HostIP}:4001 
+  -listen-client-urls http://0.0.0.0:4001 
+  -initial-advertise-peer-urls http://${HostIP}:2380 
+  -listen-peer-urls http://0.0.0.0:2380 
+  -initial-cluster-token etcd-cluster-1 
+  -initial-cluster etcd0=http://${HostIP}:2380 
+  -initial-cluster-state new
 script:
 - "./scripts/slimceph"
 - docker tag ceph/daemon.slim ${cnt}${slim}
