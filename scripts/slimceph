@@ -1,15 +1,16 @@
 #!/bin/bash
+#slimceph
 docker pull ceph/daemon
 mkdir -p ${SAVE}/etc ${SAVE}/var
 sudo ./docker-slim --debug build \
 --continue-after 60 \
 --http-probe \
---mount ${SAVE}/etc:/etc/ceph \
 --mount ${SAVE}/var:/var/lib/ceph \
 --mount ${SAVE}/scripts:/scripts \
 --include-path /etc/confd \
 --include-path /var/log/ceph \
 --include-path /tmp \
+--entrypoint /bin/bash \
 ceph/daemon &> /dev/null &
 
 sleep 5
