@@ -1,6 +1,8 @@
 #!/bin/bash
 #slimceph
 docker pull ceph/daemon
+docker run --name ceph-ip --entrypoint /bin/bash ceph/daemon -c "apt-get update && apt-get install iptables -y -q"
+docker commit --change='ENTRYPOINT ["/entrypoint.sh"]' ceph-ip ceph/daemon:ip
 mkdir -p ${SAVE}/etc ${SAVE}/var
 sudo ./docker-slim --debug build \
 --continue-after 60 \
@@ -12,7 +14,7 @@ sudo ./docker-slim --debug build \
 --include-path /usr/lib/ceph \
 --include-path /tmp \
 --entrypoint /bin/bash \
-ceph/daemon &> /dev/null &
+ceph/daemon:ip &> /dev/null &
 
 sleep 5
 
