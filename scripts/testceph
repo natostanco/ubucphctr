@@ -1,14 +1,14 @@
 #!/bin/bash
-export MON_IP=172.17.0.2 CEPH_PUBLIC_NETWORK=172.17.0.0/24 KV_TYPE=etcd KV_IP=172.17.0.1 KV_PORT=4001
+export MON_IP=172.17.0.3 CEPH_PUBLIC_NETWORK=172.17.0.0/24 KV_TYPE=etcd KV_IP=172.17.0.1 KV_PORT=4001
 /entrypoint.sh populate_kvstore
-/entrypoint.sh mon &> /dev/null &
+/entrypoint.sh mon &
 sleep 5
 mkdir -p /var/lib/ceph/osd
 export OSD_FORCE_ZAP=1 OSD_DIRECTORY=/var/lib/ceph/osd
-/entrypoint.sh osd_directory &> /dev/null &
+/entrypoint.sh osd_directory &
 sleep 5
 export CEPHFS_CREATE=1
-/entrypoint.sh mds &> /dev/null &
+/entrypoint.sh mds &
 sleep 5
 ceph osd pool set rbd size 1
 ceph osd pool set rbd min_size 1
@@ -17,9 +17,9 @@ ceph osd pool set cephfs_data min_size 1
 ceph osd pool set cephfs_metadata size 1
 ceph osd pool set cephfs_metadata min_size 1
 sleep 5
-/entrypoint.sh rgw &> /dev/null &
+/entrypoint.sh rgw &
 sleep 5
-/entrypoint.sh restapi &> /dev/null &
+/entrypoint.sh restapi &
 sleep 5
 
 include=( "/usr/bin/ceph*" \
