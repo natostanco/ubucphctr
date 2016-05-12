@@ -36,6 +36,7 @@ include=( "/usr/bin/ceph*" \
           "/usr/bin/crushtool" \
           "/bin/mount" \
           "/sbin/mkfs" \
+          "/sbin/iptables" \
           )
 
 for n in ${!include[*]}
