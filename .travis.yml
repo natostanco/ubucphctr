@@ -20,7 +20,7 @@ before_script:
   -initial-cluster-state new
 script:
 - "./scripts/slimceph"
-- docker tag ceph/daemon.slim ${cnt}${slim}
+- docker tag ceph/daemonip.slim ${cnt}${slim}
 before_deploy:
 - cd
 - wget `curl -s https://api.github.com/repos/appc/docker2aci/releases | grep browser_download_url
