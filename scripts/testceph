@@ -10,7 +10,7 @@ export OSD_FORCE_ZAP=1 OSD_DIRECTORY=/var/lib/ceph/osd
 /entrypoint.sh osd_directory &> /dev/null &
 sleep 5
 export CEPHFS_CREATE=1
-/entrypoint.sh mds
+/entrypoint.sh mds  &> /dev/null &
 sleep 5
 ceph osd pool set rbd size 1
 ceph osd pool set rbd min_size 1
