@@ -3,11 +3,11 @@ IPS=`ip -4 -o a `
 POD_IP=`printf "$IPS" | awk '/eth/ { sub ("/..", "", $4); print $4 }' | tail -1`
 export MON_IP=$POD_IP CEPH_PUBLIC_NETWORK=172.17.0.0/24 KV_TYPE=etcd KV_IP=172.17.0.1 KV_PORT=4001
 /entrypoint.sh populate_kvstore
-/entrypoint.sh mon 
+/entrypoint.sh mon &> /dev/null &
 sleep 5
 mkdir -p /var/lib/ceph/osd
 export OSD_FORCE_ZAP=1 OSD_DIRECTORY=/var/lib/ceph/osd
-/entrypoint.sh osd_directory &> /dev/null &
+/entrypoint.sh osd_directory
 sleep 5
 export CEPHFS_CREATE=1
 /entrypoint.sh mds &> /dev/null &
