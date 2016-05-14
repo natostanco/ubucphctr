@@ -1,5 +1,7 @@
 #!/bin/bash
-export MON_IP=172.17.0.3 CEPH_PUBLIC_NETWORK=172.17.0.0/24 KV_TYPE=etcd KV_IP=172.17.0.1 KV_PORT=4001
+IPS=`ip -4 -o a `
+POD_IP=`printf "$IPS" | awk '/eth/ { sub ("/..", "", $4); print $4 }' | tail -1`
+export MON_IP=$POD_IP CEPH_PUBLIC_NETWORK=172.17.0.0/24 KV_TYPE=etcd KV_IP=172.17.0.1 KV_PORT=4001
 /entrypoint.sh populate_kvstore
 /entrypoint.sh mon &> /dev/null &
 sleep 5
@@ -45,8 +47,6 @@ find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u 
 done
 
 # run a bunch of stuff to pickup arts for iptables script
-IPS=`ip -4 -o a `
-POD_IP=`printf "$IPS" | awk '/eth/ { sub ("/..", "", $4); print $4 }' | tail -1`
 echo $POD_IP localhost >> /etc/hosts
 ifconfig lo:9 9.9.9.9 netmask 255.255.0.0 up
 iptables -t nat -N ceph
