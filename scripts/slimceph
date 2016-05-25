@@ -5,7 +5,7 @@ docker run --name ceph-ip --entrypoint /bin/bash ceph/daemon -c "apt-get update 
 docker commit --change='ENTRYPOINT ["/entrypoint.sh"]' --change='CMD [""]' ceph-ip ceph/daemonip
 mkdir -p ${SAVE}/etc ${SAVE}/var
 sudo ./docker-slim build \
---continue-after 75 \
+--continue-after 90 \
 --http-probe \
 --mount ${SAVE}/etc:/etc/ceph \
 --mount ${SAVE}/var:/var/lib/ceph \
