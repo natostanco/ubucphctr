@@ -46,6 +46,8 @@ do
 find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
 done
 
+sleep 5
+
 # run a bunch of stuff to pickup arts for iptables script
 echo $POD_IP localhost >> /etc/hosts
 ifconfig lo:9 9.9.9.9 netmask 255.255.0.0 up
