@@ -48,8 +48,10 @@ done
 
 sleep 5
 
+echo "before hosts"
 # run a bunch of stuff to pickup arts for iptables script
 echo $POD_IP localhost >> /etc/hosts
+echo "before ifconfig"
 ifconfig lo:9 9.9.9.9 netmask 255.255.0.0 up
 echo "before iptables"
 iptables -t nat -N ceph
