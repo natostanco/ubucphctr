@@ -47,11 +47,11 @@ find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u 
 done
 
 # run a bunch of stuff to pickup arts for iptables script
-echo $POD_IP localhost >> /etc/hosts
-ifconfig lo:9 9.9.9.9 netmask 255.255.0.0 up
+#echo $POD_IP localhost >> /etc/hosts
+#ifconfig lo:9 9.9.9.9 netmask 255.255.0.0 up
 #echo "before iptables"
 #iptables -t nat -N ceph
 #iptables -t nat -A OUTPUT -s 1.2.0.0/24 -d 1.2.0.0/24 -j ceph
 #iptables -t nat -A ceph -d 1.1.1.1 -j DNAT --to-destination 2.2.2.2
 #echo "after iptables"
-echo '1234' | cut -d',' -f1
+#echo '1234' | cut -d',' -f1
