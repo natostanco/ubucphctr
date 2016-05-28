@@ -53,11 +53,16 @@ sleep 5
 echo "before hosts"
 # run a bunch of stuff to pickup arts for iptables script
 echo $POD_IP localhost >> /etc/hosts
+$MON_IP=1.2.0.1
+$POD_IP=1.2.0.2
 echo "before ifconfig"
 ifconfig lo:9 9.9.9.9 netmask 255.255.0.0 up
 echo "before iptables"
-iptables -t nat -N ceph
 iptables -t nat -A OUTPUT -s 1.2.0.0/24 -d 1.2.0.0/24 -j ceph
 iptables -t nat -A ceph -d 1.1.1.1 -j DNAT --to-destination 2.2.2.2
+iptables -t nat -A PREROUTING -d $POD_IP -j DNAT --to-destination $MON_IP
+iptables -t nat -A POSTROUTING -s $MON_IP -j SNAT --to-source $POD_IP
+iptables -t nat -N ceph
+iptables -t nat -A OUTPUT -s $CEPH_PUBLIC_NETWORK -d $CEPH_PUBLIC_NETWORK -j ceph
 echo "after iptables"
 echo '1234' | cut -d',' -f1
