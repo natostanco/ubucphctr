@@ -27,6 +27,8 @@ sleep 5
 include=( "/usr/bin/ceph*" \
           "/usr/bin/rbd*" \
           "/usr/bin/rados*" \
+          "/usr/bin/uu*" \
+          "/usr/sbin/uuidd" \
           "/usr/local/bin/*" \
           "/bin/bash" \
           "/bin/cat" \
