@@ -14,6 +14,9 @@ sudo ./docker-slim build \
 --include-path /var/log/ceph \
 --include-path /usr/lib/ceph \
 --include-path /tmp \
+--include-path /config.static.sh \
+--include-path /config.kv.sh \
+--include-path /etc/runit/2 \
 --entrypoint /bin/bash \
 ceph/daemonip &
 
