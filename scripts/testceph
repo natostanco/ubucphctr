@@ -41,6 +41,7 @@ include=( "/usr/bin/ceph*" \
           "/bin/mount" \
           "/sbin/mkfs" \
           "/sbin/iptables" \
+          "/usr/bin/print" \
           )
 
 for n in ${!include[*]}
