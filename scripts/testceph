@@ -42,6 +42,7 @@ include=( "/usr/bin/ceph*" \
           "/sbin/mkfs" \
           "/sbin/iptables" \
           "/usr/bin/print" \
+          "/usr/bin/vim.tiny" \
           )
 
 for n in ${!include[*]}
