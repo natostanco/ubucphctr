@@ -16,6 +16,7 @@ export OSD_TYPE="directory"
 sleep 5
 
 echo "restarting osd and mon"
+/sbin/my_init
 runsvdir -P /etc/service/ &>/dev/null &
 /entrypoint.sh mon &> /dev/null &
 sleep 10
