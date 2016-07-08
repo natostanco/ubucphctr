@@ -2,16 +2,26 @@
 IPS=`ip -4 -o a `
 POD_IP=`printf "$IPS" | awk '/eth/ { sub ("/..", "", $4); print $4 }' | tail -1`
 export MON_IP=$POD_IP CEPH_PUBLIC_NETWORK=172.17.0.0/24 KV_TYPE=etcd KV_IP=172.17.0.1 KV_PORT=4001
+
+echo "populating keystore"
 /entrypoint.sh populate_kvstore
+
+echo "launching mon"
 /entrypoint.sh mon &> /dev/null &
 sleep 5
+
+echo "launching osd"
 mkdir -p /var/lib/ceph/osd
 export OSD_FORCE_ZAP=1 OSD_DIRECTORY=/var/lib/ceph/osd
 /entrypoint.sh osd_directory &> /dev/null &
 sleep 5
+
+echo "launching mds"
 export CEPHFS_CREATE=1
 /entrypoint.sh mds  &> /dev/null &
 sleep 5
+
+echo "reaching health ok"
 ceph osd pool set rbd size 1
 ceph osd pool set rbd min_size 1
 ceph osd pool set cephfs_data size 1
@@ -19,11 +29,16 @@ ceph osd pool set cephfs_data min_size 1
 ceph osd pool set cephfs_metadata size 1
 ceph osd pool set cephfs_metadata min_size 1
 sleep 5
+
+echo "launching rgw"
 /entrypoint.sh rgw &> /dev/null &
 sleep 5
+
+echo "launching rest api"
 /entrypoint.sh restapi &> /dev/null &
 sleep 5
 
+echo "including package files"
 include=( "/usr/bin/ceph*" \
           "/usr/bin/rbd*" \
           "/usr/bin/rados*" \
@@ -49,11 +64,12 @@ for n in ${!include[*]}
 do
 find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
 sleep 2
-echo "next"
+echo "loop"
 done
 
 sleep 5
 
+echo "iptables tests"
 echo "before hosts"
 # run a bunch of stuff to pickup arts for iptables script
 echo $POD_IP localhost >> /etc/hosts
@@ -69,4 +85,6 @@ iptables -t nat -A POSTROUTING -s $MON_IP -j SNAT --to-source $POD_IP
 iptables -t nat -N ceph
 iptables -t nat -A OUTPUT -s $CEPH_PUBLIC_NETWORK -d $CEPH_PUBLIC_NETWORK -j ceph
 echo "after iptables"
+
+echo "misc tests"
 echo '1234' | cut -d',' -f1
