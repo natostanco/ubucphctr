@@ -27,6 +27,8 @@
 
 #osd
 /osd/journal_size 100
+/osd/osd_max_object_name_len 256
+/osd/osd_max_object_namespace_len 64
 
 # these 2 should be passed at runtime to the container.
 #/osd/cluster_network 198.100.128.0/19
