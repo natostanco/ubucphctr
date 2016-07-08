@@ -22,6 +22,8 @@ ceph/daemonip &
 
 sleep 5
 
+echo "permoring tests..."
+
 docker exec -it $(docker ps | grep dockerslim | awk '{print $1}') /scripts/testceph
 
 while [[ $( docker images | grep "ceph\/daemonip\.slim" | wc -l ) -ne 1 ]]
