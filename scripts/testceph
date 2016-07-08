@@ -10,16 +10,22 @@ echo "launching mon"
 /entrypoint.sh mon &> /dev/null &
 sleep 5
 
+ps aux | grep mon
+
 echo "launching osd"
 mkdir -p /var/lib/ceph/osd
 export OSD_FORCE_ZAP=1 OSD_DIRECTORY=/var/lib/ceph/osd
 /entrypoint.sh osd_directory &> /dev/null &
 sleep 5
 
+ps aux | grep osd
+
 echo "launching mds"
 export CEPHFS_CREATE=1
 /entrypoint.sh mds  # &> /dev/null &
 sleep 5
+
+ps aux | grep mds
 
 echo "reaching health ok"
 ceph osd pool set rbd size 1
