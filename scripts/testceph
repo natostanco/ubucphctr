@@ -18,7 +18,7 @@ sleep 5
 
 echo "launching mds"
 export CEPHFS_CREATE=1
-/entrypoint.sh mds  &> /dev/null &
+/entrypoint.sh mds  # &> /dev/null &
 sleep 5
 
 echo "reaching health ok"
