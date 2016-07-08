@@ -1,6 +1,6 @@
 #!/bin/bash
 #slimceph
-docker pull ceph/daemon
+docker pull ceph/daemon:tag-build-master-jewel-ubuntu-16.04
 docker run --name ceph-ip --entrypoint /bin/bash ceph/daemon -c "apt-get update && apt-get install iptables -y -q"
 docker commit --change='ENTRYPOINT ["/entrypoint.sh"]' --change='CMD [""]' ceph-ip ceph/daemonip
 mkdir -p ${SAVE}/etc ${SAVE}/var
