@@ -50,6 +50,12 @@ echo "launching rest api"
 /entrypoint.sh restapi &> /dev/null &
 sleep 5
 
+echo "rbd tests"
+## rbd
+rbd create foo --size 1
+rbd ls
+sudo rbd map foo --name client.admin
+
 echo "including package files"
 include=( "/usr/bin/ceph*" \
           "/usr/bin/rbd*" \
