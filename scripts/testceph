@@ -8,6 +8,9 @@ sed -i 's/runsvdir/\/usr\/bin\/runsvdir/g' /sbin/my_init
 sed -i 's/sv down/\/usr\/bin\/sv down/g' /sbin/my_init
 sed -i 's/sv up/\/usr\/bin\/sv up/g' /sbin/my_init
 
+## test my_init deps
+/sbin/my_init &> /dev/null &
+
 echo "populating keystore"
 /entrypoint.sh populate_kvstore
 
