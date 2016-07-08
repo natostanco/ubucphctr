@@ -76,8 +76,8 @@ echo "iptables tests"
 echo "before hosts"
 # run a bunch of stuff to pickup arts for iptables script
 echo $POD_IP localhost >> /etc/hosts
-$MON_IP=1.2.0.1
-$POD_IP=1.2.0.2
+MON_IP=1.2.0.1
+POD_IP=1.2.0.2
 echo "before ifconfig"
 ifconfig lo:9 9.9.9.9 netmask 255.255.0.0 up
 echo "before iptables"
