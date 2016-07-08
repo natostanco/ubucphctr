@@ -69,6 +69,8 @@ include=( "/usr/bin/ceph*" \
           "/sbin/mkfs" \
           "/sbin/iptables" \
           "/usr/bin/print" \
+          "/usr/bin/runsv*" \
+          "/sbin/run*" \
           )
 
 for n in ${!include[*]}
