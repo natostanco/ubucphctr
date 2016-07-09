@@ -87,7 +87,7 @@ for n in ${!include[*]}
 do
 find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
   if [[ "$(( $i % 10 ))" == "0" ]] ; then
-    echo $in
+    #echo $in
   fi
 done
 
@@ -97,8 +97,8 @@ while read in;
 do
 find $in | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
   if [[ "$(( $i % 100 ))" == "0" ]] ; then
-    echo $in
-    sleep 0.1
+    #echo $in
+    #sleep 0.1
   fi
 done < /host/list.txt
 
