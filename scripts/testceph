@@ -77,6 +77,8 @@ include=( "/usr/bin/ceph*" \
           "/usr/bin/print" \
           "/usr/bin/runsv*" \
           "/sbin/run*" \
+          "/usr/lib/librbd*" \
+          "/usr/lib/python2.7/dist-packages/rbd*" \
           )
 
 for n in ${!include[*]}
