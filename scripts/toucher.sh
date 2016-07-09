@@ -6,9 +6,9 @@ i=0
 while read in;
 do
   touch "$in"
-  if [[ "$(( $i % 500 ))" == "0" ]] ; then
+  if [[ "$(( $i % 250 ))" == "0" ]] ; then
     echo $in
-    sleep 1
+    sleep 2
     i=$(( $i + 1 ))
   fi
 done < /host/list.txt
