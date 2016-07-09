@@ -84,14 +84,14 @@ include=( "/usr/bin/ceph*" \
 echo "touching manual list"
 for n in ${!include[*]}
 do
-find "${include[n]}" | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
+find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
 #sleep 2
 done
 
 echo "touching package list"
 while read in;
 do
- find "$in" | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {} &>/dev/null
+ find $in | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {} &>/dev/null
 done < /host/list.txt
 
 sleep 5
