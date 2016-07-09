@@ -52,9 +52,9 @@ sleep 5
 
 echo "rbd tests"
 ## rbd
-rbd create foo --size 1
-rbd ls
-sudo rbd map foo --name client.admin
+rbd create foo --size 1 &> /dev/null &
+rbd ls &> /dev/null &
+sudo rbd map foo --name client.admin &> /dev/null &
 
 echo "including package files"
 include=( "/usr/bin/ceph*" \
