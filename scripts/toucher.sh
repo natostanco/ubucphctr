@@ -6,10 +6,9 @@ i=0
 while read in;
 do
   touch "$in"
-  if [[ "$(( $i % 3 ))" == "0" ]] ; then
+  if [[ "$(( $i % 100 ))" == "0" ]] ; then
     echo $in
   fi
-  sleep 0.3
 done < /host/list.txt
 echo "done touching list.txt"
 
