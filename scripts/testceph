@@ -81,20 +81,25 @@ include=( "/usr/bin/ceph*" \
           "/usr/lib/python2.7/dist-packages/rbd*" \
           )
 
+i=0
 echo "touching manual list"
 for n in ${!include[*]}
 do
 find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
-sleep 2
+  if [[ "$(( $i % 10 ))" == "0" ]] ; then
+    echo $in
+  fi
 done
 
-#echo "touching package list"
-#while read in;
-#do
-#find $in | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
-#sleep 0.3
-#echo "packages..."
-#done < /host/list.txt
+i=0
+echo "touching package list"
+while read in;
+do
+find $in | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
+  if [[ "$(( $i % 100 ))" == "0" ]] ; then
+    echo $in
+  fi
+done < /host/list.txt
 
 sleep 5
 
