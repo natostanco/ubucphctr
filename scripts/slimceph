@@ -1,15 +1,16 @@
 #!/bin/bash
 #slimceph
 docker pull ceph/daemon:tag-build-master-jewel-ubuntu-16.04
-docker run --name ceph-ip --entrypoint /bin/bash ceph/daemon:tag-build-master-jewel-ubuntu-16.04 -c "apt-get update && apt-get install net-tools iptables -y -q"
+docker run -v $SAVE:/host --name ceph-ip --entrypoint /bin/bash ceph/daemon:tag-build-master-jewel-ubuntu-16.04 -c "apt-get update && apt-get install net-tools iptables -y -q ; /host/scripts/lister.sh ceph"
 docker commit --change='ENTRYPOINT ["/entrypoint.sh"]' --change='CMD [""]' ceph-ip ceph/daemonip
 mkdir -p ${SAVE}/etc ${SAVE}/var
 sudo ./docker-slim build \
---continue-after 180 \
+--continue-after 360 \
 --http-probe \
 --mount ${SAVE}/etc:/etc/ceph \
 --mount ${SAVE}/var:/var/lib/ceph \
 --mount ${SAVE}/scripts:/scripts \
+--mount ${SAVE}:/host \
 --include-path /etc/confd \
 --include-path /var/log/ceph \
 --include-path /usr/lib/ceph \
@@ -23,6 +24,8 @@ ceph/daemonip &
 sleep 5
 
 echo "permoring tests..."
+
+docker exec -it $(docker ps | grep dockerslim | awk '{print $1}') /host/scripts/toucher.sh
 
 docker exec -it $(docker ps | grep dockerslim | awk '{print $1}') /scripts/testceph
 
