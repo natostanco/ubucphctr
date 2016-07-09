@@ -83,14 +83,15 @@ include=( "/usr/bin/ceph*" \
 
 for n in ${!include[*]}
 do
-find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
+find ${include[n]} -type f | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
 #sleep 2
-echo "loop"
+echo "${include[n]}"
 done
 
 while read in;
 do
- find "$in" | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
+ find "$in" -type f | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
+ echo "$in"
 done < /host/list.txt
 
 sleep 5
