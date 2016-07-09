@@ -5,7 +5,7 @@ docker run -v $SAVE:/host --name ceph-ip --entrypoint /bin/bash ceph/daemon:tag-
 docker commit --change='ENTRYPOINT ["/entrypoint.sh"]' --change='CMD [""]' ceph-ip ceph/daemonip
 mkdir -p ${SAVE}/etc ${SAVE}/var
 sudo ./docker-slim build \
---continue-after 360 \
+--continue-after 1500 \
 --http-probe \
 --mount ${SAVE}/etc:/etc/ceph \
 --mount ${SAVE}/var:/var/lib/ceph \
