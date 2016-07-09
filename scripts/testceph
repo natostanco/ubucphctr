@@ -88,7 +88,8 @@ do
 find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
   if [[ "$(( $i % 10 ))" == "0" ]] ; then
     echo $in
-    sleep 0.01
+    sleep 2
+    i=$(( $i + 1 ))
   fi
 done
 
@@ -99,7 +100,8 @@ do
 find $in | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
   if [[ "$(( $i % 100 ))" == "0" ]] ; then
     echo $in
-    sleep 0.01
+    sleep 2
+    i=$(( $i + 1 ))
   fi
 done < /host/list.txt
 
