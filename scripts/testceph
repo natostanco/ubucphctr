@@ -91,7 +91,7 @@ done
 echo "touching package list"
 while read in;
 do
- find $in | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {} &>/dev/null
+find $in | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {} &>/dev/null
 done < /host/list.txt
 
 sleep 5
