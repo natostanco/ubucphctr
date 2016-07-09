@@ -81,16 +81,12 @@ include=( "/usr/bin/ceph*" \
           "/usr/lib/python2.7/dist-packages/rbd*" \
           )
 
-i=0
 echo "touching manual list"
 for n in ${!include[*]}
 do
 find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
-  if [[ "$(( $i % 10 ))" == "0" ]] ; then
-    echo $in
-    sleep 2
-    i=$(( $i + 1 ))
-  fi
+echo $in
+sleep 2
 done
 
 i=0
