@@ -9,7 +9,7 @@ do
   if [[ "$(( $i % 500 ))" == "0" ]] ; then
     echo $in
     sleep 1
-    $i+=1
+    i+=1
   fi
 done < /host/list.txt
 echo "done touching list.txt"
