@@ -1,3 +1,4 @@
+install: true
 services:
 - docker
 env:
