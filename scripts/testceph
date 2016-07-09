@@ -86,9 +86,10 @@ echo "touching manual list"
 for n in ${!include[*]}
 do
 find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
-  #if [[ "$(( $i % 10 ))" == "0" ]] ; then
-    #echo $in
-  #fi
+  if [[ "$(( $i % 10 ))" == "0" ]] ; then
+    echo $in
+    sleep 0.01
+  fi
 done
 
 i=0
@@ -96,10 +97,10 @@ echo "touching package list"
 while read in;
 do
 find $in | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
-  #if [[ "$(( $i % 100 ))" == "0" ]] ; then
-    #echo $in
-    #sleep 0.1
-  #fi
+  if [[ "$(( $i % 100 ))" == "0" ]] ; then
+    echo $in
+    sleep 0.01
+  fi
 done < /host/list.txt
 
 sleep 5
