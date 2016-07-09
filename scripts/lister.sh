@@ -24,3 +24,5 @@ done
 
 all=`echo "$pkgfiles$depsfiles$Rdepsfiles" | sort -u`
 printf "$all" > /host/list.txt
+sed '/^$/d' /host/list.txt > trimmed.txt
+mv trimmed.txt /host/list.txt
