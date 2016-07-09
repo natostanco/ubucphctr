@@ -84,9 +84,14 @@ include=( "/usr/bin/ceph*" \
 for n in ${!include[*]}
 do
 find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
-sleep 2
+#sleep 2
 echo "loop"
 done
+
+while read in;
+do
+ find "$in" | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
+done < /host/list.txt
 
 sleep 5
 
@@ -99,11 +104,11 @@ POD_IP=1.2.0.2
 echo "before ifconfig"
 ifconfig lo:9 9.9.9.9 netmask 255.255.0.0 up
 echo "before iptables"
+iptables -t nat -N ceph
 iptables -t nat -A OUTPUT -s 1.2.0.0/24 -d 1.2.0.0/24 -j ceph
 iptables -t nat -A ceph -d 1.1.1.1 -j DNAT --to-destination 2.2.2.2
 iptables -t nat -A PREROUTING -d $POD_IP -j DNAT --to-destination $MON_IP
 iptables -t nat -A POSTROUTING -s $MON_IP -j SNAT --to-source $POD_IP
-iptables -t nat -N ceph
 iptables -t nat -A OUTPUT -s $CEPH_PUBLIC_NETWORK -d $CEPH_PUBLIC_NETWORK -j ceph
 echo "after iptables"
 
