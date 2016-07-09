@@ -85,7 +85,7 @@ echo "touching manual list"
 for n in ${!include[*]}
 do
 find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
-#sleep 2
+sleep 2
 done
 
 echo "touching package list"
