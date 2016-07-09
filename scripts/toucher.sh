@@ -2,9 +2,13 @@
 
 echo "touching list.txt"
 echo "end is `cat /host/list.txt | tail -n 1`" 
+i=0
 while read in;
 do
-  touch $in
+  touch "$in"
+  if [[ "$(( $i % 3 ))" == "0" ]] ; then
+    echo $in
+  fi
   sleep 0.3
 done < /host/list.txt
 echo "done touching list.txt"
