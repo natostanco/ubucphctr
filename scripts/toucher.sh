@@ -6,7 +6,7 @@ i=0
 while read in;
 do
   touch "$in"
-  if [[ "$(( $i % 100 ))" == "0" ]] ; then
+  if [[ "$(( $i % 50 ))" == "0" ]] ; then
     echo $in
     sleep 2
     i=$(( $i + 1 ))
