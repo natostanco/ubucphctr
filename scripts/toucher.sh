@@ -5,7 +5,7 @@ echo "end is `cat /host/list.txt | tail -n 1`"
 i=0
 while read in;
 do
-  touch "$in"
+  touch "$in" &>/dev/null &
   #if [[ "$(( $i % 25 ))" == "0" ]] ; then
   #  i=$(( $i + 1 ))
     echo $in
