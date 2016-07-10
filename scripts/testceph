@@ -84,7 +84,7 @@ include=( "/usr/bin/ceph*" \
 echo "touching manual list"
 for n in ${!include[*]}
 do
-found=`find ${include[n]} | xargs -I {} file {} | awk -F: '$2 ~ "dynamically linked" {print $1}' | xargs -I {} ldd {} | awk '{print $3}' | grep '/'`
+found=`find ${include[n]} | xargs -I {} ldd {} 2>/dev/null | awk '{print $3}' | grep '/'`
 foundsorted=`echo "$found" | sort -u`
 touch `echo "$foundsorted"` ${include[n]}
 sleep 3
