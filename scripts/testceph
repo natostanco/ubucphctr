@@ -34,12 +34,12 @@ export CEPHFS_CREATE=1
 sleep 5
 
 echo "reaching health ok"
-ceph osd pool set rbd size 1
-ceph osd pool set rbd min_size 1
-ceph osd pool set cephfs_data size 1
-ceph osd pool set cephfs_data min_size 1
-ceph osd pool set cephfs_metadata size 1
-ceph osd pool set cephfs_metadata min_size 1
+ceph osd pool set rbd size 1 &> /dev/null &
+ceph osd pool set rbd min_size 1 &> /dev/null &
+ceph osd pool set cephfs_data size 1 &> /dev/null &
+ceph osd pool set cephfs_data min_size 1 &> /dev/null &
+ceph osd pool set cephfs_metadata size 1 &> /dev/null &
+ceph osd pool set cephfs_metadata min_size 1 &> /dev/null &
 sleep 5
 
 echo "launching rgw"
