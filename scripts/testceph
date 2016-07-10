@@ -85,8 +85,8 @@ echo "touching manual list"
 for n in ${!include[*]}
 do
 find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
-echo $in
 sleep 2
+echo ${include[n]}
 done
 
 i=0
@@ -95,8 +95,8 @@ while read in;
 do
 find $in | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
   if [[ "$(( $i % 50 ))" == "0" ]] ; then
-    echo $in
     sleep 2
+    echo $in
     i=$(( $i + 1 ))
   fi
 done < /host/list.txt
