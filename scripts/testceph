@@ -96,6 +96,7 @@ foundsorted=`echo "$foundgrep" | sort -u`
 touch `echo "$foundsorted"` ${include[n]}
 done
 echo ${include[n]}
+sleep 0.5
 done
 
 echo "touching package list"
