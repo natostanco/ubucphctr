@@ -100,13 +100,19 @@ done
 
 echo "touching package list"
 rm ./spl* &>/dev/null
+echo "before split"
 split -l 1000 /host/list.txt spl
+echo "after split"
 for e in `find ./spl*`;
 do
+echo "before filter"
 filter=`file \`cat $e \` | grep -v "directory" | grep -oP "^[^\:]*"`
+echo "after filter"
 echo "$filter" > /tmp/found
 rm ./lif* &>/dev/null
+echo "before large split"
 split -l 1 /tmp/found lif
+echo "after large split"
 for l in `find ./lif*`;
 do
 echo "before ldd"
