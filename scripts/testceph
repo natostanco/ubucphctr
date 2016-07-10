@@ -86,7 +86,7 @@ for n in ${!include[*]}
 do
 found=`find ${include[n]}`
 echo $found > /tmp/found
-rm ./incl*
+rm ./incl* &>/dev/null
 split -l 1 /tmp/found incl
 for l in `find ./incl*`; do
 foundldd=`ldd \`cat $l\` 2>/dev/null`
