@@ -101,12 +101,20 @@ echo "$filter" > /tmp/found
 split -l 25 /tmp/found lif
 for l in `find ./lif*`;
 do
-echo "before ldd"
+#echo "before ldd"
+#sleep 0.01
 found=`ldd \`cat $l\` 2>/dev/null`
-foundgrep=`echo "$found" | awk '{print $3}' | grep '/'`
+#echo "after ldd"
+foundawk=`echo "$found" | awk '{print $3}'`
+#echo "after foundawk"
+foundgrep=`echo "$foundawk" | grep '/'`
+#echo "after foundgrep"
+#sleep 0.01
 foundsorted=`echo "$foundgrep" | sort -u`
+#echo "before touch"
 touch `echo "$foundsorted"` 2>/dev/null
-sleep 1
+#echo "after touch"
+#sleep 1
 done
 echo $e
 sleep 3
