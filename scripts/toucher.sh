@@ -7,9 +7,9 @@ while read in;
 do
   touch "$in"
   if [[ "$(( $i % 50 ))" == "0" ]] ; then
-    echo $in
     sleep 2
     i=$(( $i + 1 ))
+    echo $in
   fi
 done < /host/list.txt
 echo "done touching list.txt"
