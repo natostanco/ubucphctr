@@ -93,12 +93,14 @@ i=0
 echo "touching package list"
 while read in;
 do
-find $in | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
-  if [[ "$(( $i % 10 ))" == "0" ]] ; then
-    sleep 2
-    echo $in
-    i=$(( $i + 1 ))
-  fi
+if [-f "$in" ]; then
+  find $in | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
+fi
+if [[ "$(( $i % 10 ))" == "0" ]] ; then
+  sleep 2
+  echo $in
+  i=$(( $i + 1 ))
+fi
 done < /host/list.txt
 
 sleep 5
