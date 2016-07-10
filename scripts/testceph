@@ -98,21 +98,25 @@ for e in `find ./spl*`;
 do
 filter=`file \`cat $e \` | grep -v "directory" | grep -oP "^[^\:]*"`
 echo "$filter" > /tmp/found
-split -l 25 /tmp/found lif
-ls
+split -l 10 /tmp/found lif
 for l in `find ./lif*`;
 do
 echo "before ldd"
+sleep 0.5
 found=`ldd \`cat $l\` 2>/dev/null`
 echo "after ldd"
+sleep 0.5
 foundawk=`echo "$found" | awk '{print $3}'`
-echo "after foundawk"
+#echo "after foundawk"
+sleep 0.5
 foundgrep=`echo "$foundawk" | grep '/'`
-echo "after foundgrep"
+#echo "after foundgrep"
+sleep 0.5
 foundsorted=`echo "$foundgrep" | sort -u`
-echo "before touch"
+#echo "before touch"
+sleep 0.5
 touch `echo "$foundsorted"` 2>/dev/null
-echo "after touch"
+#echo "after touch"
 sleep 2
 done
 echo $e
