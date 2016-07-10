@@ -9,6 +9,7 @@ do
   #if [[ "$(( $i % 25 ))" == "0" ]] ; then
   #  i=$(( $i + 1 ))
     echo $in
+    sleep 0.3
   #  sleep 2
   #fi
 done < /host/list.txt
