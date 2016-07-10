@@ -118,7 +118,7 @@ for l in `find ./lif*`;
 do
 sleep 0.04
 echo "ldd"
-found=`ldd \`cat $l\` 2>/dev/null`
+found=`ldd \`cat $l 2>/dev/null \` 2>/dev/null`
 sleep 0.04
 echo "awk"
 foundawk=`echo "$found" | awk '{print $3}' 2>/dev/null`
