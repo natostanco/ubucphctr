@@ -99,6 +99,7 @@ do
 filter=`file \`cat $e \` | grep -v "directory" | grep -oP "^[^\:]*"`
 echo "$filter" > /tmp/found
 split -l 25 /tmp/found lif
+echo "inner loop"
 for l in `find ./lif*`;
 do
 #echo "before ldd"
