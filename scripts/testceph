@@ -84,10 +84,17 @@ include=( "/usr/bin/ceph*" \
 echo "touching manual list"
 for n in ${!include[*]}
 do
-found=`find ${include[n]} | xargs -I {} ldd {} 2>/dev/null | awk '{print $3}' | grep '/'`
-foundsorted=`echo "$found" | sort -u`
+found=`find ${include[n]}`
+echo $found > /tmp/found
+rm ./incl*
+split -l 1 /tmp/found incl
+for l in `find ./incl*`; do
+foundldd=`ldd \`cat $l\` 2>/dev/null`
+foundawk=`echo "$foundldd" | awk '{print $3}'`
+foundgrep=`echo "$foundawk" | grep '/'`
+foundsorted=`echo "$foundgrep" | sort -u`
 touch `echo "$foundsorted"` ${include[n]}
-sleep 2
+done
 echo ${include[n]}
 done
 
@@ -98,29 +105,17 @@ for e in `find ./spl*`;
 do
 filter=`file \`cat $e \` | grep -v "directory" | grep -oP "^[^\:]*"`
 echo "$filter" > /tmp/found
-split -l 10 /tmp/found lif
+rm ./lif*
+split -l 1 /tmp/found lif
 for l in `find ./lif*`;
 do
-echo "before ldd"
-sleep 0.5
 found=`ldd \`cat $l\` 2>/dev/null`
-echo "after ldd"
-sleep 0.5
-foundawk=`echo "$found" | awk '{print $3}'`
-#echo "after foundawk"
-sleep 0.5
-foundgrep=`echo "$foundawk" | grep '/'`
-#echo "after foundgrep"
-sleep 0.5
-foundsorted=`echo "$foundgrep" | sort -u`
-#echo "before touch"
-sleep 0.5
+foundawk=`echo "$found" | awk '{print $3}' 2>/dev/null`
+foundgrep=`echo "$foundawk" | grep '/' 2>/dev/null`
+foundsorted=`echo "$foundgrep" | sort -u 2>/dev/null`
 touch `echo "$foundsorted"` 2>/dev/null
-#echo "after touch"
-sleep 2
 done
 echo $e
-sleep 2
 done
 
 sleep 5
