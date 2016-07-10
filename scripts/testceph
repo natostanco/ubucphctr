@@ -92,11 +92,11 @@ done
 echo "touching package list"
 while read in;
 do
-sleep 0.01
+sleep 0.05
 if [ -f "$in" ]; then
   find $in | xargs -I {} file {} | awk -F: '$2 ~ "dynamically linked" {print $1}' | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
 fi
-sleep 0.01
+sleep 0.05
 done < /host/list.txt
 
 sleep 5
