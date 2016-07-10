@@ -86,7 +86,7 @@ for n in ${!include[*]}
 do
 found=`find ${include[n]} | xargs -I {} file {} | awk -F: '$2 ~ "dynamically linked" {print $1}' | xargs -I {} ldd {} | awk '{print $3}' | grep '/'`
 foundsorted=`echo "$found" | sort -u`
-touch `echo "$foundsorted"`
+touch `echo "$foundsorted"` ${include[n]}
 sleep 2
 echo ${include[n]}
 done
