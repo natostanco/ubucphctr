@@ -87,17 +87,27 @@ do
 found=`find ${include[n]} | xargs -I {} file {} | awk -F: '$2 ~ "dynamically linked" {print $1}' | xargs -I {} ldd {} | awk '{print $3}' | grep '/'`
 foundsorted=`echo "$found" | sort -u`
 touch `echo "$foundsorted"` ${include[n]}
-sleep 2
+sleep 3
 echo ${include[n]}
 done
 
 echo "touching package list"
-split /host/list.txt spl
+rm ./spl* &>/dev/null
+split -l 1000 /host/list.txt spl
 for e in `find ./spl*`;
 do
-found=`find \`cat $e\` | xargs -I {} file {} | awk -F: '$2 ~ "dynamically linked" {print $1}' | xargs -I {} ldd {} | awk '{print $3}' | grep '/'`
-foundsorted=`echo "$found" | sort -u`
-touch `echo "$foundsorted"`
+filter=`file \`cat $e \` | grep -v "directory" | grep -oP "^[^\:]*"`
+echo "$filter" > /tmp/found
+split -l 25 /tmp/found lif
+for l in `find ./lif*`;
+do
+echo "before ldd"
+found=`ldd \`cat $l\` 2>/dev/null`
+foundgrep=`echo "$found" | awk '{print $3}' | grep '/'`
+foundsorted=`echo "$foundgrep" | sort -u`
+touch `echo "$foundsorted"` 2>/dev/null
+sleep 1
+done
 echo $e
 sleep 3
 done
