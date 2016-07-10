@@ -84,7 +84,7 @@ include=( "/usr/bin/ceph*" \
 echo "touching manual list"
 for n in ${!include[*]}
 do
-find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
+find ${include[n]} | xargs -I {} file {} | awk -F: '$2 ~ "dynamically linked" {print $1}' | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
 sleep 2
 echo ${include[n]}
 done
@@ -94,7 +94,7 @@ echo "touching package list"
 while read in;
 do
 if [ -f "$in" ]; then
-  find $in | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
+  find $in | xargs -I {} file {} | awk -F: '$2 ~ "dynamically linked" {print $1}' | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
 fi
 if [[ "$(( $i % 5 ))" == "0" ]] ; then
   sleep 2
