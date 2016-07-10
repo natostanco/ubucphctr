@@ -87,7 +87,7 @@ do
 found=`find ${include[n]} | xargs -I {} ldd {} 2>/dev/null | awk '{print $3}' | grep '/'`
 foundsorted=`echo "$found" | sort -u`
 touch `echo "$foundsorted"` ${include[n]}
-sleep 3
+sleep 2
 echo ${include[n]}
 done
 
@@ -115,10 +115,10 @@ foundsorted=`echo "$foundgrep" | sort -u`
 #echo "before touch"
 touch `echo "$foundsorted"` 2>/dev/null
 #echo "after touch"
-sleep 1
+sleep 2
 done
 echo $e
-sleep 3
+sleep 2
 done
 
 sleep 5
