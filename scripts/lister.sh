@@ -26,3 +26,37 @@ all=`echo "$pkgfiles$depsfiles$Rdepsfiles" | sort -u`
 printf "$all" > /host/list.txt
 sed '/^$/d' /host/list.txt > trimmed.txt
 mv trimmed.txt /host/list.txt
+
+include=( "/usr/bin/ceph*" \
+          "/usr/bin/rbd*" \
+          "/usr/bin/rados*" \
+          "/usr/bin/uu*" \
+          "/usr/sbin/uuidd" \
+          "/usr/local/bin/*" \
+          "/bin/bash" \
+          "/bin/cat" \
+          "/bin/grep" \
+          "/bin/ls" \
+          "/sbin/my_init" \
+          "/usr/bin/uuidgen" \
+          "/usr/bin/awk" \
+          "/usr/bin/crushtool" \
+          "/bin/mount" \
+          "/sbin/mkfs" \
+          "/sbin/iptables" \
+          "/usr/bin/print" \
+          "/usr/bin/runsv*" \
+          "/sbin/run*" \
+          "/usr/lib/librbd*" \
+          "/usr/lib/python2.7/dist-packages/rbd*" \
+          )
+
+for n in ${!include[*]}
+do
+find ${include[n]} | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} echo {} >> /host/manuallist.txt
+done
+
+while read in;
+do
+find $in | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} echo {} >> /host/lddlist.txt
+done < /host/list.txt
