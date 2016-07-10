@@ -117,7 +117,9 @@ echo "after large split"
 for l in `find ./lif*`;
 do
 sleep 0.04
+echo "before ldd"
 found=`ldd \`cat $l\` 2>/dev/null`
+echo "after ldd"
 foundawk=`echo "$found" | awk '{print $3}' 2>/dev/null`
 foundgrep=`echo "$foundawk" | grep '/' 2>/dev/null`
 foundsorted=`echo "$foundgrep" | sort -u 2>/dev/null`
