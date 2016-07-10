@@ -84,7 +84,9 @@ include=( "/usr/bin/ceph*" \
 echo "touching manual list"
 for n in ${!include[*]}
 do
-find ${include[n]} | xargs -I {} file {} | awk -F: '$2 ~ "dynamically linked" {print $1}' | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
+found=`find ${include[n]} | xargs -I {} file {} | awk -F: '$2 ~ "dynamically linked" {print $1}' | xargs -I {} ldd {} | awk '{print $3}' | grep '/'`
+foundsorted=`echo "$found" | sort -u`
+touch `echo "$foundsorted"`
 sleep 2
 echo ${include[n]}
 done
@@ -93,7 +95,9 @@ echo "touching package list"
 split /host/list.txt spl
 for e in `find ./spl*`;
 do
-find `cat $e` | xargs -I {} file {} | awk -F: '$2 ~ "dynamically linked" {print $1}' | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
+found=`find \`cat $e\` | xargs -I {} file {} | awk -F: '$2 ~ "dynamically linked" {print $1}' | xargs -I {} ldd {} | awk '{print $3}' | grep '/'`
+foundsorted=`echo "$found" | sort -u`
+touch `echo "$foundsorted"`
 echo $e
 sleep 3
 done
