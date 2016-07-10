@@ -20,9 +20,11 @@ sleep 5
 
 echo "launching osd"
 export OSD_TYPE="directory"
-/entrypoint.sh osd &> /dev/null &
+/entrypoint.sh osd_directory &> /dev/null &
 sleep 5
 
+touch /usr/bin/ceph-osd
+ps aux | grep ceph
 #echo "restarting osd and mon"
 #runsvdir -P /etc/service/ &>/dev/null &
 #/entrypoint.sh mon &> /dev/null &
