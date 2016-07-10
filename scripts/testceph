@@ -99,22 +99,20 @@ do
 filter=`file \`cat $e \` | grep -v "directory" | grep -oP "^[^\:]*"`
 echo "$filter" > /tmp/found
 split -l 25 /tmp/found lif
-echo "inner loop"
+ls
 for l in `find ./lif*`;
 do
-#echo "before ldd"
-#sleep 0.01
+echo "before ldd"
 found=`ldd \`cat $l\` 2>/dev/null`
-#echo "after ldd"
+echo "after ldd"
 foundawk=`echo "$found" | awk '{print $3}'`
-#echo "after foundawk"
+echo "after foundawk"
 foundgrep=`echo "$foundawk" | grep '/'`
-#echo "after foundgrep"
-#sleep 0.01
+echo "after foundgrep"
 foundsorted=`echo "$foundgrep" | sort -u`
-#echo "before touch"
+echo "before touch"
 touch `echo "$foundsorted"` 2>/dev/null
-#echo "after touch"
+echo "after touch"
 sleep 2
 done
 echo $e
