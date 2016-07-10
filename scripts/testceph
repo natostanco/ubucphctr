@@ -115,7 +115,7 @@ foundsorted=`echo "$foundgrep" | sort -u`
 #echo "before touch"
 touch `echo "$foundsorted"` 2>/dev/null
 #echo "after touch"
-#sleep 1
+sleep 1
 done
 echo $e
 sleep 3
