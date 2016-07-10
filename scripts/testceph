@@ -94,7 +94,7 @@ echo "touching package list"
 while read in;
 do
 find $in | xargs -I {} ldd {} | awk '{print $3}' | grep '/' | sort -u | xargs -I {} touch {}
-  if [[ "$(( $i % 50 ))" == "0" ]] ; then
+  if [[ "$(( $i % 10 ))" == "0" ]] ; then
     sleep 2
     echo $in
     i=$(( $i + 1 ))
