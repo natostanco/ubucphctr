@@ -53,6 +53,7 @@ include=( "/usr/bin/ceph*" \
 
 for n in ${!include[*]}
 do
+find ${include[n]} >> /tmp/touch
 find ${include[n]} | xargs -I {} ldd {} 2>/dev/null | awk '{print $3}' | grep '/' | sort -u | xargs -I {} echo {} >> /tmp/touch
 done
 cat /tmp/touch | sort -u >> /host/manuallist.txt
